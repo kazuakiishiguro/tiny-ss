@@ -144,7 +144,7 @@ mod tests {
     }
 
     #[test]
-    fn large_parime() {
+    fn large_parime_test() {
         let ss = SS {
             t: 3,
             n: 6,
@@ -157,5 +157,16 @@ mod tests {
         let secret = BigInt::parse_bytes(b"ffffffffffffffffffffffffffffffffffffff", 16).unwrap();
         let shares = ss.split(secret.clone());
         assert_eq!(secret, ss.recover(&shares[0..ss.t as usize]));
+    }
+
+    #[test]
+    fn secp256k1_test() {
+        use secp256k1::{Message, Secp256k1};
+        let secp = Secp256k1::new();
+        let mut rng = rand::thread_rng();
+        let (secret, public) = secp.generate_keypair(&mut rng);
+        let message = Message::from_slice(&[0xab; 32]).expect("32 bytes");
+        let sig = secp.sign_ecdsa(&message, &secret);
+        assert!(secp.verify_ecdsa(&message, &sig, &public).is_ok());
     }
 }

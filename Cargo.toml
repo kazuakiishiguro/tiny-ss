@@ -4,6 +4,9 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-num-bigint = {version = "0.4.3", features = ["rand"]}
+num-bigint = {version = "0.2.6", features = ["rand"]}
 num-traits = "0.2.14"
-rand = "0.8.4"
+rand = "0.6"
+
+[dev-dependencies]
+secp256k1 = {vresion = "0.17.2", features = ["rand-std"]}
