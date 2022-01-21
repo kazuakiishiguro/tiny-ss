@@ -111,6 +111,22 @@ mod tests {
     use super::*;
 
     #[test]
+    fn test_lagrange() {
+        let ss = SS {
+            t: 2,
+            n: 3,
+            p: BigInt::from(7),
+        };
+
+        let shares = ss.split(BigInt::from(2));
+
+        let (xs, ys): (Vec<usize>, Vec<BigInt>) = shares.iter().cloned().unzip();
+        let result = ss.lagrange_interpolation(BigInt::from(0), xs, ys);
+
+        assert_eq!(result, BigInt::from(2));
+    }
+
+    #[test]
     fn recover_test() {
         let ss = SS {
             t: 3,
