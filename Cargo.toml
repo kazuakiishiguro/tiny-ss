@@ -1,6 +1,7 @@
 [package]
-name = "tiny-secret-sharing"
+name = "tiny-ss"
 version = "0.1.0"
+authors = ["Kazuaki Ishiguro <kazuakiishiguro@protonmail.com>"]
 edition = "2021"
 
 [dependencies]

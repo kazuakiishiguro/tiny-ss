@@ -1,5 +1,6 @@
 use num_bigint::{BigInt, RandBigInt};
 use num_traits::{One, Zero};
+use rand::thread_rng;
 use std::{mem, ops::SubAssign};
 
 #[derive(Clone, Debug)]
@@ -21,7 +22,7 @@ impl SS {
 
     fn sample_polynomial(&self, secret: BigInt) -> Vec<BigInt> {
         let mut coeff: Vec<BigInt> = vec![secret];
-        let mut rng = rand::thread_rng();
+        let mut rng = thread_rng();
         let low = BigInt::zero();
         let high = &self.p - BigInt::one();
         let random_coeffs: Vec<BigInt> = (0..(self.t - 1))
