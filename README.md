@@ -9,3 +9,8 @@ Tiny [Secret Sharing](https://en.wikipedia.org/wiki/Shamir%27s_Secret_Sharing) l
 ```sh
 $ cargo test
 ```
+
+## License
+
+modified new BSD License http://opensource.org/licenses/BSD-3-Clause
+
