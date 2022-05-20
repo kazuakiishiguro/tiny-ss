@@ -1,8 +1,6 @@
-use std::{mem, ops::SubAssign};
-
 use num_bigint::{BigInt, RandBigInt};
 use num_traits::{One, Zero};
-use rand;
+use std::{mem, ops::SubAssign};
 
 #[derive(Clone, Debug)]
 pub struct SS {
