@@ -5,9 +5,9 @@ authors = ["Kazuaki Ishiguro <kazuakiishiguro@protonmail.com>"]
 edition = "2021"
 
 [dependencies]
-num-bigint = {version = "0.2.6", features = ["rand"]}
-num-traits = "0.2.14"
-rand = "0.6"
+num-bigint = { version = "0.4.3" , default-features = false, features = ["rand"] }
+num-traits = { version = "0.2.15", default-features = false }
+rand = { version = "0.8.5" }
 
 [dev-dependencies]
 secp256k1 = {vresion = "0.17.2", features = ["rand-std"]}

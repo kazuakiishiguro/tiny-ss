@@ -1,10 +1,15 @@
+#![no_std]
+
+extern crate alloc;
+
+use alloc::{vec, vec::Vec};
+use core::{mem, ops::SubAssign};
 use num_bigint::{BigInt, RandBigInt};
 use num_traits::{One, Zero};
 use rand::thread_rng;
-use std::{mem, ops::SubAssign};
 
 #[derive(Clone, Debug)]
-pub struct SS {
+pub struct SecretShare {
     /// threshold
     pub t: usize,
     /// total number of shares
@@ -13,7 +18,7 @@ pub struct SS {
     pub p: BigInt,
 }
 
-impl SS {
+impl SecretShare {
     pub fn split(&self, secret: BigInt) -> Vec<(usize, BigInt)> {
         assert!(self.t < self.n);
         let polynomial = self.sample_polynomial(secret);
@@ -82,7 +87,7 @@ impl SS {
     fn mod_inv(&self, a: BigInt) -> BigInt {
         let m = self.p.clone();
         let num = if a < Zero::zero() { a + &self.p } else { a };
-        let (g, x, _) = SS::xgcd(num, m);
+        let (g, x, _) = SecretShare::xgcd(num, m);
         assert!(g.is_one());
         (x + &self.p) % &self.p
     }
@@ -116,7 +121,7 @@ mod tests {
 
     #[test]
     fn test_lagrange() {
-        let ss = SS {
+        let ss = SecretShare {
             t: 2,
             n: 3,
             p: BigInt::from(7),
@@ -132,7 +137,7 @@ mod tests {
 
     #[test]
     fn recover_test() {
-        let ss = SS {
+        let ss = SecretShare {
             t: 3,
             n: 6,
             p: BigInt::from(1613),
@@ -165,7 +170,7 @@ mod tests {
 
     #[test]
     fn large_parime_test() {
-        let ss = SS {
+        let ss = SecretShare {
             t: 3,
             n: 6,
             p: BigInt::parse_bytes(
@@ -181,7 +186,7 @@ mod tests {
 
     #[test]
     fn diffferent_type_split_test() {
-        let ss = SS {
+        let ss = SecretShare {
             t: 3,
             n: 4,
             p: BigInt::from(11),
