@@ -43,9 +43,9 @@ impl SecretShare {
             .collect()
     }
 
-    fn mod_evaluate_at(&self, ploynomial: &[BigInt], x: usize) -> BigInt {
+    fn mod_evaluate_at(&self, polynomial: &[BigInt], x: usize) -> BigInt {
         let x_bigint = BigInt::from(x);
-        ploynomial
+        polynomial
             .iter()
             .rev()
             .fold(Zero::zero(), |sum, item| (&x_bigint * sum + item) % &self.p)
