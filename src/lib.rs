@@ -62,10 +62,14 @@ impl SecretShare {
         }
     }
 
+    // Lagrange interpolation algorithm for polynomial evaluation
     fn lagrange_interpolation(&self, x: BigInt, xs: Vec<usize>, ys: Vec<BigInt>) -> BigInt {
         let len = xs.len();
+        // Create a vector of BigInts from a vector of usize
         let xs_bigint: Vec<BigInt> = xs.iter().map(|x| BigInt::from(*x as i64)).collect();
+        // Iterate over the range of 0 to len
         (0..len).fold(Zero::zero(), |sum, item| {
+            // Define the numerator
             let numerator = (0..len).fold(One::one(), |product: BigInt, i| {
                 if i == item {
                     product
@@ -73,6 +77,7 @@ impl SecretShare {
                     product * (&x - &xs_bigint[i]) % &self.p
                 }
             });
+            // Define the denominator
             let denominator = (0..len).fold(One::one(), |product: BigInt, i| {
                 if i == item {
                     product
@@ -80,10 +85,13 @@ impl SecretShare {
                     product * (&xs_bigint[item] - &xs_bigint[i]) % &self.p
                 }
             });
+            // Calculate the sum
             (sum + numerator * self.mod_inv(denominator) * &ys[item]) % &self.p
         })
     }
 
+    // Computes the modular inverse of a mod p
+    #[inline]
     fn mod_inv(&self, a: BigInt) -> BigInt {
         let m = self.p.clone();
         let num = if a < Zero::zero() { a + &self.p } else { a };
@@ -92,6 +100,9 @@ impl SecretShare {
         (x + &self.p) % &self.p
     }
 
+    // The extended Euclidean algorithm.
+    // Compute the greatest common divisor of a and b, as well as the
+    // coefficients sj and tj such that sj * a + tj * b = gcd(a, b).
     fn xgcd(a: BigInt, b: BigInt) -> (BigInt, BigInt, BigInt) {
         let (mut sj, mut sj_last) = (BigInt::zero(), BigInt::one());
         let (mut tj, mut tj_last) = (BigInt::one(), BigInt::zero());
